@@ -1,6 +1,12 @@
 @page "/repos"
 @inject HttpClient Http
-
+@code {
+    bool stateof = false;
+    void toggleid()
+    {
+        stateof = !stateof;
+    }
+}
 <h1>Latest Repositories</h1>
 
 <p>Here are the latest GitHub Repositories created by Sharkbyteprojects</p>
@@ -11,12 +17,16 @@
 }
 else
 {
+    <button type="button" class="btn btn-primary" @onclick="toggleid">@(stateof?"Hide":"Show") additional Information</button>
     <table class="table">
         <thead>
             <tr>
                 <th>Reposname</th>
-                <th>Full name of the Repos</th>
                 <th>Programming Language</th>
+                @if (stateof)
+                {
+                    <th>Dates</th>
+                }
                 <th>Link</th>
             </tr>
         </thead>
@@ -25,8 +35,15 @@ else
             {
                 <tr>
                     <td>@repos.name</td>
-                    <td>@repos.full_name</td>
                     <td>@repos.language</td>
+                    @if (stateof)
+                    {
+                <td>
+                    Created: @repos.created_at.ToShortDateString() @repos.created_at.ToShortTimeString()<br />
+                    Updated: @repos.updated_at.ToShortDateString() @repos.updated_at.ToShortTimeString()<br />
+                    Pushed: @repos.pushed_at.ToShortDateString() @repos.pushed_at.ToShortTimeString()
+                </td>
+                    }
                     <td><a href="@repos.html_url" target="_blank" class="ml-md-auto">Open GitHub Page</a></td>
                 </tr>
             }
@@ -46,10 +63,14 @@ else
     {
         public string name { get; set; }
 
-        public string full_name { get; set; }
-
         public string language { get; set; }
 
         public string html_url { get; set; }
+
+        public DateTime created_at { get; set; }
+
+        public DateTime pushed_at { get; set; }
+
+        public DateTime updated_at { get; set; }
     }
 }
