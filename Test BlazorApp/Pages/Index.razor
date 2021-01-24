@@ -1,0 +1,73 @@
+﻿@page "/"
+@inject HttpClient Http
+
+<h1>GitHub account Information</h1>
+<p>Some Information about Sharkbyteprojects GitHub account</p>
+
+@if (dataset == null)
+{
+    <p><em>Here must be something! Loading...</em></p>
+}
+else
+{
+<div>
+    <img src="@dataset.avatar_url" style="border-radius: 50% !important;height:200px;width:200px;" />
+    <h2><a href="@dataset.html_url" target="_blank">@dataset.name</a></h2>
+
+    <div class="alert alert-secondary mt-4" role="alert">
+        <span class="oi oi-code mr-2" aria-hidden="true"></span>
+        <strong>Public Repositories: </strong>@dataset.public_repos
+    </div>
+    <div class="alert alert-secondary mt-4" role="alert">
+        <span class="oi oi-copywriting mr-2" aria-hidden="true"></span>
+        <strong>Public Gists: </strong>@dataset.public_gists
+    </div>
+    <div class="alert alert-secondary mt-4" role="alert">
+        <span class="oi oi-clock mr-2" aria-hidden="true"></span>
+        <strong>Last Change at: </strong>@dataset.updated_at.ToShortDateString() @dataset.updated_at.ToShortTimeString()
+    </div>
+    <div class="alert alert-secondary mt-4" role="alert">
+        <span class="oi oi-bolt mr-2" aria-hidden="true"></span>
+        <strong>GitHub account Created at: </strong>@dataset.created_at.ToShortDateString() @dataset.created_at.ToShortTimeString()
+    </div>
+    <div class="alert alert-secondary mt-4" role="alert">
+        <span class="oi oi-browser mr-2" aria-hidden="true"></span>
+        <strong>Followers: </strong>@dataset.followers
+    </div>
+    <div class="alert alert-secondary mt-4" role="alert">
+        <span class="oi oi-link-intact mr-2" aria-hidden="true"></span>
+        <a href="@dataset.blog" target="_blank">@dataset.blog</a>
+    </div>
+
+</div>
+}
+
+@code {
+    private data dataset;
+
+    protected override async Task OnInitializedAsync()
+    {
+        dataset = await Http.GetFromJsonAsync<data>("https://api.github.com/users/sharkbyteprojects");
+    }
+
+    public class data
+    {
+        public int public_repos { get; set; }
+
+        public string avatar_url { get; set; }
+
+        public string blog { get; set; }
+
+        public string html_url { get; set; }
+
+        public string name { get; set; }
+
+        public int public_gists { get; set; }
+
+        public DateTime created_at { get; set; }
+
+        public DateTime updated_at { get; set; }
+
+        public int followers { get; set; }
+    }
+}
