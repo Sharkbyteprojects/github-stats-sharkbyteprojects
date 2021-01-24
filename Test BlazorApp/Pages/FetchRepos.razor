@@ -18,14 +18,16 @@
 else
 {
     <button type="button" class="btn btn-primary" @onclick="toggleid">@(stateof?"Hide":"Show") additional Information</button>
-    <table class="table">
+    <table class="table" style="overflow: auto; max-width: 100vw;">
         <thead>
             <tr>
                 <th>Reposname</th>
-                <th>Programming Language</th>
+                <th>Description</th>
                 @if (stateof)
                 {
+                    <th>Programming Language</th>
                     <th>Dates</th>
+                    <th>Is a Fork?</th>
                 }
                 <th>Link</th>
             </tr>
@@ -33,19 +35,23 @@ else
         <tbody>
             @foreach (var repos in repositorielist)
             {
-                <tr>
-                    <td>@repos.name</td>
+            <tr>
+                <td>@repos.name</td>
+                <td><textarea readonly="readonly" class="form-control" style="resize: none; max-width: 200px; max-height: 200px;">@repos.description</textarea></td>
+                @if (stateof)
+                {
                     <td>@repos.language</td>
-                    @if (stateof)
-                    {
-                <td>
-                    Created: @repos.created_at.ToShortDateString() @repos.created_at.ToShortTimeString()<br />
-                    Updated: @repos.updated_at.ToShortDateString() @repos.updated_at.ToShortTimeString()<br />
-                    Pushed: @repos.pushed_at.ToShortDateString() @repos.pushed_at.ToShortTimeString()
-                </td>
-                    }
-                    <td><a href="@repos.html_url" target="_blank" class="ml-md-auto">Open GitHub Page</a></td>
-                </tr>
+                    <td>
+                        Created: @repos.created_at.ToShortDateString() @repos.created_at.ToShortTimeString()<br />
+                        Updated: @repos.updated_at.ToShortDateString() @repos.updated_at.ToShortTimeString()<br />
+                        Pushed: @repos.pushed_at.ToShortDateString() @repos.pushed_at.ToShortTimeString()
+                    </td>
+                    <td>
+                        @(repos.fork?"Yes":"No")
+                    </td>
+                }
+                <td><a href="@repos.html_url" target="_blank" class="ml-md-auto">Open GitHub Page</a></td>
+            </tr>
             }
         </tbody>
     </table>
@@ -72,5 +78,9 @@ else
         public DateTime pushed_at { get; set; }
 
         public DateTime updated_at { get; set; }
+
+        public string description { get; set; }
+
+        public bool fork { get; set; }
     }
 }
