@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "gtihub", "Test BlazorApp\gtihub.csproj", "{235A5340-8EF0-4A86-AB0C-929A3ABC1A43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "githubstats", "Test BlazorApp\githubstats.csproj", "{235A5340-8EF0-4A86-AB0C-929A3ABC1A43}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
