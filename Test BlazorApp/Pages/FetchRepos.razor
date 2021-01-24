@@ -22,13 +22,17 @@ else
         <thead>
             <tr>
                 <th>Reposname</th>
-                <th>Description</th>
                 @if (stateof)
                 {
                     <th>Programming Language</th>
+                    <th>Description</th>
                     <th>Dates</th>
                     <th>Is a Fork?</th>
+                    <th>Open Issues</th>
                 }
+                <th>Stars</th>
+                <th>Forks</th>
+                <th>Watchers</th>
                 <th>Link</th>
             </tr>
         </thead>
@@ -36,11 +40,11 @@ else
             @foreach (var repos in repositorielist)
             {
             <tr>
-                <td>@repos.name</td>
-                <td><textarea readonly="readonly" class="form-control" style="resize: none; max-width: 200px; max-height: 200px;">@repos.description</textarea></td>
+                <td>@repos.name@(repos.archived?"(*)":"")</td>
                 @if (stateof)
                 {
                     <td>@repos.language</td>
+                    <td><textarea readonly="readonly" class="form-control" style="resize: none; max-width: 200px; max-height: 200px;">@repos.description</textarea></td>
                     <td>
                         Created: @repos.created_at.ToShortDateString() @repos.created_at.ToShortTimeString()<br />
                         Updated: @repos.updated_at.ToShortDateString() @repos.updated_at.ToShortTimeString()<br />
@@ -49,14 +53,18 @@ else
                     <td>
                         @(repos.fork?"Yes":"No")
                     </td>
+                    <td>@repos.open_issues</td>
                 }
+                <td>@repos.stargazers_count</td>
+                <td>@repos.forks</td>
+                <td>@repos.watchers</td>
                 <td><a href="@repos.html_url" target="_blank" class="ml-md-auto">Open GitHub Page</a></td>
             </tr>
             }
         </tbody>
     </table>
 }
-
+<p>If the repos is archived, (*) stand behind the name.</p>
 @code {
     private repos[] repositorielist;
 
@@ -82,5 +90,15 @@ else
         public string description { get; set; }
 
         public bool fork { get; set; }
+
+        public int forks { get; set; }
+
+        public int watchers { get; set; }
+
+        public int open_issues { get; set; }
+
+        public bool archived { get; set; }
+
+        public int stargazers_count { get; set; }
     }
 }
