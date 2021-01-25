@@ -13,7 +13,7 @@
 
 @if (repositorielist == null)
 {
-    <p><em>Here must be something! Loading...</em></p>
+    <p><em><span class="oi oi-reload loading" aria-hidden="true"></span><br />Here must be something! Loading...</em></p>
 }
 else
 {
@@ -32,9 +32,9 @@ else
                     }
                     else
                     {
-                        <th>Stars</th>
-                        <th>Forks</th>
-                        <th>Watchers</th>
+                        <th><span class="oi oi-star" aria-hidden="true"></span></th>
+                        <th><span class="oi oi-fork" aria-hidden="true"></span></th>
+                        <th><span class="oi oi-eye" aria-hidden="true"></span></th>
                         <th>Open Issues</th>
                         <th>License</th>
                     }
@@ -44,7 +44,8 @@ else
                 @foreach (var repos in repositorielist)
                 {
                     <tr>
-                        <td><a href="@repos.html_url" target="_blank" class="ml-md-auto">@repos.name@(repos.archived?"(*)":"")</a></td>
+                        <td>@if (repos.archived)
+                        {<span class="oi oi-hard-drive" aria-hidden="true"></span>}<a href="@repos.html_url" target="_blank" class="ml-md-auto">@repos.name</a></td>
                         @if (stateof)
                         {
                             <td>@repos.language</td>
@@ -81,14 +82,15 @@ else
             </tbody>
         </table>
     </div>
+    <p>If the repos is archived, <span class="oi oi-hard-drive" aria-hidden="true"></span> stand before the name.</p>
 }
-<p>If the repos is archived, (*) stand behind the name.</p>
 @code {
     private repos[] repositorielist;
 
     protected override async Task OnInitializedAsync()
     {
-        repositorielist = await Http.GetFromJsonAsync<repos[]>("https://api.github.com/users/sharkbyteprojects/repos?sort=latest&per_page=20");
+        App.sett setting = await Http.GetFromJsonAsync<App.sett>("settings.json");
+        repositorielist = await Http.GetFromJsonAsync<repos[]>(string.Format("https://api.github.com/users/{0}/repos?sort=latest&per_page=20", setting.checkex()));
     }
     public class lic
     {

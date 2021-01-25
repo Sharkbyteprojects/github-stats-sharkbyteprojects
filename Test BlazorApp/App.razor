@@ -8,3 +8,18 @@
         </LayoutView>
     </NotFound>
 </Router>
+@code{
+    public class sett
+    {
+        public string username { get; set; }
+        public string checkex()
+        {
+            string outputs = Regex.Replace(this.username, @"[^a-zA-Z0-9]", string.Empty);
+            if (string.IsNullOrEmpty(outputs))
+            {
+                outputs = "sharkbyteprojects";
+            }
+            return outputs;
+        }
+    }
+}

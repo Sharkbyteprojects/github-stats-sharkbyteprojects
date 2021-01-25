@@ -6,7 +6,7 @@
 
 @if (dataset == null)
 {
-    <p><em>Here must be something! Loading...</em></p>
+    <p><em><span class="oi oi-reload loading" aria-hidden="true"></span><br />Here must be something! Loading...</em></p>
 }
 else
 {
@@ -47,7 +47,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        dataset = await Http.GetFromJsonAsync<data>("https://api.github.com/users/sharkbyteprojects");
+        App.sett setting = await Http.GetFromJsonAsync<App.sett>("settings.json");
+        dataset = await Http.GetFromJsonAsync<data>(string.Format("https://api.github.com/users/{0}", setting.checkex()));
     }
 
     public class data
