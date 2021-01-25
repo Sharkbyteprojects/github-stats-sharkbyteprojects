@@ -181,14 +181,3 @@ app {
         display: block;
     }
 }
-
-table {
-    overflow: auto !important;
-    max-width: 100vw !important;
-}
-
-textarea {
-    resize: none !important;
-    max-width: 200px !important;
-    max-height: 200px;
-}

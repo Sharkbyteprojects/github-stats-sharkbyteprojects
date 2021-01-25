@@ -18,51 +18,69 @@
 else
 {
     <button type="button" class="btn btn-primary" @onclick="toggleid">@(stateof?"Hide":"Show") additional Information</button>
-    <table class="table" style="overflow: auto; max-width: 100vw;">
-        <thead>
-            <tr>
-                <th>Reposname</th>
-                @if (stateof)
+    <div style="overflow: auto; max-width: 100vw; width:100%;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Reposname</th>
+                    @if (stateof)
+                    {
+                        <th>Programming Language</th>
+                        <th>Description</th>
+                        <th>Dates</th>
+                        <th>Is a Fork?</th>
+                    }
+                    else
+                    {
+                        <th>Stars</th>
+                        <th>Forks</th>
+                        <th>Watchers</th>
+                        <th>Open Issues</th>
+                        <th>License</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var repos in repositorielist)
                 {
-                    <th>Programming Language</th>
-                    <th>Description</th>
-                    <th>Dates</th>
-                    <th>Is a Fork?</th>
-                    <th>Open Issues</th>
+                    <tr>
+                        <td><a href="@repos.html_url" target="_blank" class="ml-md-auto">@repos.name@(repos.archived?"(*)":"")</a></td>
+                        @if (stateof)
+                        {
+                            <td>@repos.language</td>
+                            <td><textarea readonly="readonly" class="form-control" style="resize: none; max-width: 200px; max-height: 200px;">@repos.description</textarea></td>
+                            <td>
+                                Created: @repos.created_at.ToShortDateString() @repos.created_at.ToShortTimeString()<br />
+                                Updated: @repos.updated_at.ToShortDateString() @repos.updated_at.ToShortTimeString()<br />
+                                Pushed: @repos.pushed_at.ToShortDateString() @repos.pushed_at.ToShortTimeString()
+                            </td>
+                            <td>
+                                @(repos.fork ? "Yes" : "No")
+                            </td>
+                        }
+                        else
+                        {
+                            <td>@repos.stargazers_count</td>
+                            <td>@repos.forks</td>
+                            <td>@repos.watchers</td>
+                            <td>@repos.open_issues</td>
+
+                            @if (repos.license != null)
+                            {
+                                <td>
+                                    <a href="@repos.license.url" target="_blank">@repos.license.spdx_id</a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>-</td>
+                            }
+                        }
+                    </tr>
                 }
-                <th>Stars</th>
-                <th>Forks</th>
-                <th>Watchers</th>
-                <th>Link</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var repos in repositorielist)
-            {
-            <tr>
-                <td>@repos.name@(repos.archived?"(*)":"")</td>
-                @if (stateof)
-                {
-                    <td>@repos.language</td>
-                    <td><textarea readonly="readonly" class="form-control" style="resize: none; max-width: 200px; max-height: 200px;">@repos.description</textarea></td>
-                    <td>
-                        Created: @repos.created_at.ToShortDateString() @repos.created_at.ToShortTimeString()<br />
-                        Updated: @repos.updated_at.ToShortDateString() @repos.updated_at.ToShortTimeString()<br />
-                        Pushed: @repos.pushed_at.ToShortDateString() @repos.pushed_at.ToShortTimeString()
-                    </td>
-                    <td>
-                        @(repos.fork?"Yes":"No")
-                    </td>
-                    <td>@repos.open_issues</td>
-                }
-                <td>@repos.stargazers_count</td>
-                <td>@repos.forks</td>
-                <td>@repos.watchers</td>
-                <td><a href="@repos.html_url" target="_blank" class="ml-md-auto">Open GitHub Page</a></td>
-            </tr>
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 }
 <p>If the repos is archived, (*) stand behind the name.</p>
 @code {
@@ -72,7 +90,12 @@ else
     {
         repositorielist = await Http.GetFromJsonAsync<repos[]>("https://api.github.com/users/sharkbyteprojects/repos?sort=latest&per_page=20");
     }
+    public class lic
+    {
+        public string spdx_id { get; set; }
 
+        public string url { get; set; }
+    }
     public class repos
     {
         public string name { get; set; }
@@ -100,5 +123,7 @@ else
         public bool archived { get; set; }
 
         public int stargazers_count { get; set; }
+
+        public lic license { get; set; }
     }
 }

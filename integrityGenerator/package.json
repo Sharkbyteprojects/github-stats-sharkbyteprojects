@@ -1,0 +1,16 @@
+{
+  "name": "integrity-generator",
+  "version": "0.0.1",
+  "description": "integrityGenerator",
+  "main": "mygen.js",
+  "author": {
+    "name": "Sharkbyteprojects"
+  },
+  "dependencies": {
+    "commander": "^7.0.0",
+    "shark-netlib": "^1.2.4"
+  },
+  "bin": {
+    "integrity-generator": "./app.js"
+  }
+}
