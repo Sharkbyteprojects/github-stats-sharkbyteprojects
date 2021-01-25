@@ -193,3 +193,6 @@ app {
 .loading{
     animation: infiro 2s linear infinite !important;
 }
+.top-row{
+    z-index: 100;
+}
