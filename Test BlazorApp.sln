@@ -7,6 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "githubstats", "Test BlazorA
 EndProject
 Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "integrityGenerator", "integrityGenerator\integrityGenerator.njsproj", "{B5F430DC-BBE7-4CF7-9DF7-E33AD4031159}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E8682880-B691-40FB-AEC7-0E76B318C16D}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.md = Readme.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
