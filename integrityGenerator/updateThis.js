@@ -20,7 +20,7 @@ try {
       for (let r of _k) {
         f = await g(u.concat(r), false);
         console.log("Hash of file ".concat(r, " is ", f));
-        jsd.resources[k][r] = f.concat(" ", await g(u.concat(r), true));
+        jsd.resources[k][r] = f;
       }
     }
     await doi(
