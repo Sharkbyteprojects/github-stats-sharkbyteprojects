@@ -1,3 +1,4 @@
+// This script just updates all integrity hashes. Use with "node updateThis"
 const g = require("./mygen"),
   fs = require("fs"),
   { resolve } = require("path");
