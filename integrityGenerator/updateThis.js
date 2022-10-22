@@ -14,19 +14,18 @@ try {
       return;
     }
     let jsd = JSON.parse(fs.readFileSync(path));
-    async function doi(k, u, se) {
+    async function doi(k, u) {
       const _k = Object.keys(jsd.resources[k]);
       let f = null;
       for (let r of _k) {
-        f = await g(u.concat(r), se);
+        f = await g(u.concat(r), false);
         console.log("Hash of file ".concat(r, " is ", f));
-        jsd.resources[k][r] = f;
+        jsd.resources[k][r] = f.concat(" ", await g(u.concat(r), true));
       }
     }
     await doi(
       "assembly",
-      "https://sharkbyteprojects.github.io/github-stats-sharkbyteprojects/framework/notbin/",
-      0
+      "https://sharkbyteprojects.github.io/github-stats-sharkbyteprojects/framework/notbin/"
     );
 
     fs.copyFileSync(path, path.concat(".old"));
