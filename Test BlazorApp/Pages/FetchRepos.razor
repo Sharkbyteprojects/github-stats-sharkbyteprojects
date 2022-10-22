@@ -13,7 +13,22 @@
 
 @if (repositorielist == null)
 {
-    <p><em><span class="oi oi-reload loading" aria-hidden="true"></span><br />Here must be something! Loading...</em></p>
+    @if (error == "")
+    {
+        <p><em><span class="oi oi-reload loading" aria-hidden="true"></span><br />Here must be something! Loading...</em></p>
+    }
+    else
+    {
+        <p>
+            <em>
+                <span class="oi oi-ban ex" aria-hidden="true"></span><br />Error: @error
+                @if (error.Contains("403"))
+                {
+                    <span><br />Maybe rate limit of GitHub, try it later!</span>
+                }
+            </em>
+        </p>
+    }
 }
 else
 {
@@ -86,11 +101,17 @@ else
 }
 @code {
     private repos[] repositorielist;
+    String error = "";
 
     protected override async Task OnInitializedAsync()
     {
-        App.sett setting = await Http.GetFromJsonAsync<App.sett>("settings.json");
-        repositorielist = await Http.GetFromJsonAsync<repos[]>(string.Format("https://api.github.com/users/{0}/repos?sort=latest&per_page=20", setting.checkex()));
+        try
+        {
+            App.sett setting = await Http.GetFromJsonAsync<App.sett>("settings.json");
+            repositorielist = await Http.GetFromJsonAsync<repos[]>(string.Format("https://api.github.com/users/{0}/repos?sort=latest&per_page=20", setting.checkex()));
+        }catch(Exception ex){
+            error = ex.Message;
+        }
     }
     public class lic
     {

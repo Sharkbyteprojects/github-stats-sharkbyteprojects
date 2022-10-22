@@ -196,3 +196,7 @@ app {
 .top-row{
     z-index: 100;
 }
+
+.ex{
+    color: red;
+}
