@@ -25,7 +25,7 @@ const g = require("./mygen"),
     }
     doi(
       "assembly",
-      "https://sharkbyteprojects.github.io/github-stats-sharkbyteprojects/framework/bin/",
+      "https://sharkbyteprojects.github.io/github-stats-sharkbyteprojects/framework/notbin/",
       0
     );
 
